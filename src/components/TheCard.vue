@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useGameStore } from '@/stores/game';
+
+const gameStore = useGameStore();
 
 const active = ref(false);
+const disabled = ref(false);
+
 const emit = defineEmits(['show']);
 const props = defineProps({
   id: {
@@ -14,22 +19,33 @@ const props = defineProps({
   },
 });
 
-function show() {
-  active.value = true;
-  emit('show', props.id);
+let timeout;
+
+function toggle() {
+  if (gameStore.pickedLimit === false) {
+    active.value = !active.value;
+
+    if (active.value) {
+      timeout = setTimeout(() => {
+        gameStore.flushOne(props.id);
+        active.value = false;
+        disabled.value = false;
+      }, 5000);
+      emit('show');
+      gameStore.register(props.id, timeout);
+    }
+  }
 }
 
 </script>
 
 <template>
-  <div class="card" @click="show">
+  <div class="card" @click="toggle">
     <div class="cover" :class="{
       'opacity-0': active,
     }">
     </div>
-    <div
-      class="content"
-    >
+    <div class="content">
       <div v-if="active">
         <slot />
       </div>
@@ -39,11 +55,13 @@ function show() {
 
 <style lang="postcss" scoped>
 .card {
-  @apply p-4 border rounded-sm hover:(cursor-pointer);
+  @apply p-4 border rounded-sm hover: (cursor-pointer);
 }
+
 .cover {
   @apply absolute top-0 left-0 w-full h-full transition transition-opacity ease-in-out bg-light-700;
 }
+
 .content {
   @apply w-full h-full;
 }
@@ -52,6 +70,7 @@ function show() {
   .card {
     @apply my-4 mx-8;
   }
+
   .content {
     @apply min-h-18.75rem min-w-14.0625rem;
     max-height: 400px;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheCard from '../components/TheCard.vue';
+import TheGame from '../components/TheGame.vue';
 </script>
 
 <template>
@@ -9,17 +9,7 @@ import TheCard from '../components/TheCard.vue';
     </aside>
     <section class="flex-wrap h-full">
       <h1>Game is on</h1>
-      <div class="flex-center">
-        <TheCard :id="'123'" name="foo">
-          This card has name of foo
-        </TheCard>
-        <TheCard :id="'234'" name="bar">
-          This card has name of bar
-        </TheCard>
-        <TheCard :id="'231'" name="bar">
-          This card has name of foo
-        </TheCard>
-      </div>
+      <TheGame />
     </section>
   </div>
 </template>
