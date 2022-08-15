@@ -7,15 +7,9 @@ const gameStore = useGameStore();
 </script>
 
 <template>
-  <div class="flex-center">
-    <TheCard :id="'123'" name="foo">
-      This card has name of foo
-    </TheCard>
-    <TheCard :id="'234'" name="bar">
-      This card has name of bar
-    </TheCard>
-    <TheCard :id="'231'" name="bar">
-      This card has name of foo
+  <div class="flex-center flex-wrap">
+    <TheCard v-for="{id, name} in gameStore.notGuessed" :key="id" :id="id" :name="name">
+      {{ name }}
     </TheCard>
   </div>
 </template>

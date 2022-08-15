@@ -32,7 +32,7 @@ function toggle() {
         disabled.value = false;
       }, 5000);
       emit('show');
-      gameStore.register(props.id, timeout);
+      gameStore.register({ id: props.id, timeout, name: props.name });
     }
   }
 }
