@@ -5,7 +5,6 @@ import { useGameStore } from '@/stores/game';
 const gameStore = useGameStore();
 
 const active = ref(false);
-const disabled = ref(false);
 
 const emit = defineEmits(['show']);
 const props = defineProps({
@@ -19,20 +18,27 @@ const props = defineProps({
   },
 });
 
-let timeout;
-
 function toggle() {
+  const disabled = gameStore.picked.find(({ id }) => id === props.id) != null;
+
   if (gameStore.pickedLimit === false) {
     active.value = !active.value;
 
+    // if the same card has been clicked 2nd time player puts it back
+    // works only if picked limit hasn't been resolved
+    if (disabled === true) {
+      gameStore.clearFlushQueue();
+      return;
+    }
+
     if (active.value) {
-      timeout = setTimeout(() => {
-        gameStore.flushOne(props.id);
-        active.value = false;
-        disabled.value = false;
-      }, 5000);
+      gameStore.clearTimeout();
+      gameStore.timeout = setTimeout(() => {
+        gameStore.clearFlushQueue();
+      }, 3000);
+      gameStore.flushQueue.push(props.id);
       emit('show');
-      gameStore.register({ id: props.id, timeout, name: props.name });
+      gameStore.register({ id: props.id, name: props.name });
     }
   }
 }

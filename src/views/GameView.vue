@@ -4,12 +4,16 @@ import TheGame from '../components/TheGame.vue';
 
 <template>
   <div class="wrapper">
-    <aside class="h-14 border-b-2">
-      <h2>Scoring, info</h2>
+    <aside class="h-14 flex flex-col border-b-2">
+      <div class="px-4 py-2 flex-grow">
+        <h2>Scoring, info</h2>
+      </div>
     </aside>
     <section class="flex-wrap h-full">
-      <h1>Game is on</h1>
-      <TheGame />
+      <div class="px-4 py-2">
+        <h1>Game is on</h1>
+        <TheGame />
+      </div>
     </section>
   </div>
 </template>

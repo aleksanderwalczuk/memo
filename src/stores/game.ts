@@ -5,8 +5,14 @@ interface Card {
   id: string,
   name: string,
   guessed: boolean,
-  timeout?: number
 }
+
+// when a card is picked timer should start
+// when another card has been picked it should be cleared and start again
+// when we have a match timer should be cleared again
+// now when second timer hasn't finished user can pick first card with previous timer
+
+// disabled should be globaly controlled by this store
 
 function createCards(): Card[] {
   const names = ['foo', 'bar', 'baz', 'foo', 'bar', 'baz'];
@@ -18,10 +24,13 @@ export const useGameStore = defineStore({
   id: 'game',
   state: () => ({
     counter: 0,
-    hasBegun: false,
+    hasBegun: null as null | number,
     cards: createCards(),
-    picked: [] as Pick<Card, 'id' | 'timeout' | 'name'>[],
+    timeout: null as null | number,
+    picked: [] as Pick<Card, 'id' | 'name'>[],
+    flushQueue: [] as string[],
     // guessed: [] as Card[],
+    wonTimestamp: null as null | number,
   }),
   getters: {
     pickedLimit: ({ picked }) => picked.length === 2,
@@ -29,7 +38,7 @@ export const useGameStore = defineStore({
     guessed: ({ cards }) => cards.filter(({ guessed }) => guessed === true),
     // eslint-disable-next-line max-len
     areEqual: ({ picked }) => picked.length === 2 && picked.every((value) => value.name === picked[0]?.name),
-    hasWon: ({ hasBegun, cards }) => hasBegun === true && cards.every(
+    hasWon: ({ hasBegun, cards }) => hasBegun !== null && cards.every(
       ({ guessed }) => guessed === true,
     ),
   },
@@ -44,16 +53,21 @@ export const useGameStore = defineStore({
           }
         });
         this.flushAll();
+
+        if (this.hasWon) {
+          // tme could be resolved in players store
+          this.wonTimestamp = Date.now();
+        }
       }
     },
     // eslint-disable-next-line consistent-return
-    register(card: Pick<Card, 'id' | 'timeout' | 'name'>): void {
+    register(card: Pick<Card, 'id' | 'name'>): void {
       if (this.pickedLimit) {
         return;
       }
 
-      if (this.hasBegun === false) {
-        this.hasBegun = true;
+      if (this.hasBegun !== null) {
+        this.hasBegun = Date.now();
       }
 
       this.counter += this.counter;
@@ -68,8 +82,18 @@ export const useGameStore = defineStore({
     flushMany(ids: string[]) {
       this.picked = this.picked.filter((el) => ids.includes(el.id));
     },
+    clearTimeout() {
+      if (this.timeout != null) {
+        clearTimeout(this.timeout);
+      }
+    },
+    clearFlushQueue() {
+      this.clearTimeout();
+      this.flushQueue = [] as string[];
+      this.picked = [];
+    },
     flushAll() {
-      this.picked.forEach((card) => card.timeout && clearTimeout(card.timeout));
+      this.clearTimeout();
       this.picked = [];
     },
   },
