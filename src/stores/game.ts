@@ -52,11 +52,13 @@ export const useGameStore = defineStore({
             card.guessed = true;
           }
         });
-        this.flushAll();
+        setTimeout(this.flushAll, 1000);
 
         if (this.hasWon) {
           // tme could be resolved in players store
-          this.wonTimestamp = Date.now();
+          setTimeout(() => {
+            this.wonTimestamp = Date.now();
+          }, 1000);
         }
       }
     },

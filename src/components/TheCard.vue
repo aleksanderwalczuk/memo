@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { watchDebounced, useDebounceFn } from '@vueuse/core';
 import { useGameStore } from '@/stores/game';
 
 const gameStore = useGameStore();
@@ -21,6 +20,9 @@ const isActive = computed(() => gameStore.picked.filter(({ id }) => id === props
 const isGuessed = computed(() => gameStore.guessed.filter(({ id }) => id === props.id).length > 0);
 
 function toggle() {
+  if (isGuessed.value === true) {
+    return;
+  }
   const disabled = gameStore.picked.find(({ id }) => id === props.id) != null;
 
   if (gameStore.pickedLimit === false) {
@@ -50,7 +52,7 @@ function toggle() {
     class="card"
     @click="toggle"
     :class="{
-      'border border-light-700 is-active' : isGuessed
+      'border border-light-700 is-guessed' : isGuessed
     }"
   >
     <div class="cover" :class="{
@@ -69,7 +71,10 @@ function toggle() {
 .card {
   @apply p-4 border border-slate-300 rounded-sm hover:(cursor-pointer);
 }
-.is-active .cover {
+.card.is-guessed {
+  @apply cursor-default;
+}
+.is-guessed .cover {
   @apply bg-transparent;
 }
 .cover {
