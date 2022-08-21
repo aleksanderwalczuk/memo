@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { watchDebounced, useDebounceFn } from '@vueuse/core';
 import { useGameStore } from '@/stores/game';
 
 const gameStore = useGameStore();
-
-const active = ref(false);
 
 const emit = defineEmits(['show']);
 const props = defineProps({
@@ -18,12 +17,13 @@ const props = defineProps({
   },
 });
 
+const isActive = computed(() => gameStore.picked.filter(({ id }) => id === props.id).length > 0);
+const isGuessed = computed(() => gameStore.guessed.filter(({ id }) => id === props.id).length > 0);
+
 function toggle() {
   const disabled = gameStore.picked.find(({ id }) => id === props.id) != null;
 
   if (gameStore.pickedLimit === false) {
-    active.value = !active.value;
-
     // if the same card has been clicked 2nd time player puts it back
     // works only if picked limit hasn't been resolved
     if (disabled === true) {
@@ -31,7 +31,7 @@ function toggle() {
       return;
     }
 
-    if (active.value) {
+    if (!isActive.value) {
       gameStore.clearTimeout();
       gameStore.timeout = setTimeout(() => {
         gameStore.clearFlushQueue();
@@ -46,14 +46,20 @@ function toggle() {
 </script>
 
 <template>
-  <div class="card" @click="toggle">
+  <div
+    class="card"
+    @click="toggle"
+    :class="{
+      'border border-light-700 is-active' : isGuessed
+    }"
+  >
     <div class="cover" :class="{
-      'opacity-0': active,
+      'opacity-0': isActive,
     }">
     </div>
     <div class="content">
-      <div v-if="active">
-        <slot />
+      <div v-if="isActive">
+        <slot :active="isActive" />
       </div>
     </div>
   </div>
@@ -61,9 +67,11 @@ function toggle() {
 
 <style lang="postcss" scoped>
 .card {
-  @apply p-4 border rounded-sm hover: (cursor-pointer);
+  @apply p-4 border border-slate-300 rounded-sm hover:(cursor-pointer);
 }
-
+.is-active .cover {
+  @apply bg-transparent;
+}
 .cover {
   @apply absolute top-0 left-0 w-full h-full transition transition-opacity ease-in-out bg-light-700;
 }
