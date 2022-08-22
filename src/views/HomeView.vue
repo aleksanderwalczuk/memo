@@ -6,7 +6,6 @@ import AppBar from '../components/AppBar.vue';
 <template>
   <AppBar>
   </AppBar>
-
   <div>
     <TheWelcome />
   </div>

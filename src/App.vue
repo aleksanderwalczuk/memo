@@ -10,6 +10,7 @@ import TheNavigation from './components/TheNavigation.vue';
       <RouterView />
     </main>
   </div>
+  <div id="modal"></div>
 </template>
 
 <style lang="postcss" scoped>
