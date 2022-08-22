@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { v4 as uuidv4 } from 'uuid';
+import { usePlayerStore } from './player';
 
 interface Card {
   id: string,
@@ -19,6 +20,8 @@ function createCards(): Card[] {
 
   return names.map((name) => ({ name, id: uuidv4(), guessed: false }));
 }
+
+const playerStore = usePlayerStore();
 
 export const useGameStore = defineStore({
   id: 'game',
@@ -52,7 +55,10 @@ export const useGameStore = defineStore({
             card.guessed = true;
           }
         });
-        setTimeout(this.flushAll, 1000);
+        setTimeout(() => {
+          this.flushAll();
+          playerStore.incrementScore();
+        }, 1000);
 
         if (this.hasWon) {
           // tme could be resolved in players store

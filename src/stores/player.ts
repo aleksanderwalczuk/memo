@@ -3,14 +3,21 @@ import { defineStore } from 'pinia';
 export const usePlayerStore = defineStore({
   id: 'player',
   state: () => ({
-    counter: 0,
+    score: 0,
+    name: 'Untitled',
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.score * 2,
   },
   actions: {
-    increment() {
-      this.counter += this.counter;
+    incrementScore() {
+      this.score += 1;
+    },
+    resetScore() {
+      this.score = 0;
+    },
+    setName(name: string) {
+      this.name = name;
     },
   },
 });
