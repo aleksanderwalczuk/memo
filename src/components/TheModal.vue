@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
 
-defineProps({ foo: {type: Number } });
+defineProps({ foo: { type: Number } });
 const open = ref(false);
+
 </script>
 
 <template>
@@ -12,11 +14,13 @@ const open = ref(false);
     <div v-if="open" class="modal">
       <p>Hello from the modal!</p>
       <button @click="open = false">Close</button>
-      <div class="modal-inner">
-        <div class="bg-violet-600">
-          something
+      <OnClickOutside @trigger="() => { open = false }">
+        <div class="modal-inner">
+          <div class="bg-violet-600">
+            something
+          </div>
         </div>
-      </div>
+      </OnClickOutside>
     </div>
   </teleport>
 </template>
