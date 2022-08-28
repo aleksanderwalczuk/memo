@@ -76,9 +76,11 @@ function toggle() {
 }
 .is-guessed .cover {
   @apply bg-transparent;
+  @apply dark:(bg-dark-50)
 }
 .cover {
   @apply absolute top-0 left-0 w-full h-full transition transition-opacity ease-in-out bg-light-700;
+  @apply dark:(bg-dark-500 text-light-300)
 }
 
 .content {

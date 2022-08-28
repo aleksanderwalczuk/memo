@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useDark, useToggle } from '@vueuse/core';
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 
 const active = ref(false);
 const route = useRoute();
@@ -8,7 +12,7 @@ const route = useRoute();
 
 <template>
   <header class="relative z-20">
-    <div class="fixed top-0 left-0 bg-white h-full z-10 border-r-2 w-24">
+    <div class="fixed top-0 left-0 bg-white dark:(bg-dark-300 text-light-300) h-full z-10 border-r-2 w-24">
     <button
         class="
         block ml-auto font-semibold my-2 mb-4 border-2 border-r-0 py-2 px-4"
@@ -37,6 +41,7 @@ const route = useRoute();
                   Home
                 </RouterLink>
               </li>
+              <li><button @click="toggleDark()">Toggle dark</button></li>
             </ul>
           </div>
         </nav>
