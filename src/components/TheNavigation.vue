@@ -12,7 +12,7 @@ const route = useRoute();
 
 <template>
   <header class="relative z-20">
-    <div class="fixed top-0 left-0 bg-white dark:(bg-dark-300 text-light-300) h-full z-10 border-r-2 w-24">
+    <div class="nav-wrapper">
     <button
         class="
         block ml-auto font-semibold my-2 mb-4 border-2 border-r-0 py-2 px-4"
@@ -53,5 +53,8 @@ const route = useRoute();
 <style lang="postcss" scoped>
 li {
   @apply block my-4;
+}
+.nav-wrapper {
+  @apply fixed top-0 left-0 bg-white dark:(bg-dark-300 text-light-300) h-full z-10 border-r-2 w-24;
 }
 </style>
