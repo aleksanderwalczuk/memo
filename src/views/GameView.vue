@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import TheGame from '../components/TheGame.vue';
 import AppBar from '../components/AppBar.vue';
 import TheScore from '../components/TheScore.vue';
 import { usePlayerStore } from '../stores/player';
+import { useGameStore } from '../stores/game';
 import TheModal from '../components/TheModal.vue';
 
 const playerStore = usePlayerStore();
-
-const modalOpen = ref(false);
+const gameStore = useGameStore();
 
 </script>
 
@@ -21,8 +20,12 @@ const modalOpen = ref(false);
       <div class="px-4 py-2">
         <h1>Game is on</h1>
         <TheGame />
-        <TheModal>
+        <TheModal :is-open="gameStore.hasWon">
           <!-- <button @click="open = true">FOOO</button> -->
+          <h2>Congratulations! You've won the game 🎉</h2>
+          <form class="flex flex-col">
+            Fill the form below to proceed
+          </form>
         </TheModal>
       </div>
     </section>

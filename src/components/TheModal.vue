@@ -1,24 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, toRef } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 
-defineProps({ foo: { type: Number } });
-const open = ref(false);
+const props = defineProps({ isOpen: { type: Boolean, default: false } });
+const open = toRef(props, 'isOpen');
 
 </script>
 
 <template>
   <button @click="open = true">Open Modal</button>
-  <slot :open="open" />
   <teleport to="#modal">
     <div v-if="open" class="modal">
       <p>Hello from the modal!</p>
       <button @click="open = false">Close</button>
       <OnClickOutside @trigger="() => { open = false }">
         <div class="modal-inner">
-          <div class="bg-violet-600">
-            something
-          </div>
+          <slot />
         </div>
       </OnClickOutside>
     </div>

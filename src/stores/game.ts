@@ -74,7 +74,7 @@ export const useGameStore = defineStore({
         return;
       }
 
-      if (this.hasBegun !== null) {
+      if (this.hasBegun == null) {
         this.hasBegun = Date.now();
       }
 
