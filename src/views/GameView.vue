@@ -4,10 +4,9 @@ import AppBar from '../components/AppBar.vue';
 import TheScore from '../components/TheScore.vue';
 import { usePlayerStore } from '../stores/player';
 import { useGameStore } from '../stores/game';
-import TheModal from '../components/TheModal.vue';
+import WinnerModal from '../components/WinnerModal.vue';
 
 const playerStore = usePlayerStore();
-const gameStore = useGameStore();
 
 </script>
 
@@ -20,13 +19,7 @@ const gameStore = useGameStore();
       <div class="px-4 py-2">
         <h1>Game is on</h1>
         <TheGame />
-        <TheModal :is-open="gameStore.hasWon">
-          <!-- <button @click="open = true">FOOO</button> -->
-          <h2>Congratulations! You've won the game 🎉</h2>
-          <form class="flex flex-col">
-            Fill the form below to proceed
-          </form>
-        </TheModal>
+        <WinnerModal/>
       </div>
     </section>
   </div>
