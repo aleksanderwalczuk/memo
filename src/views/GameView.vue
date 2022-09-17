@@ -5,6 +5,7 @@ import TheScore from '../components/TheScore.vue';
 import { usePlayerStore } from '../stores/player';
 import { useGameStore } from '../stores/game';
 import WinnerModal from '../components/WinnerModal.vue';
+import SettingsModal from '@/components/SettingsModal.vue';
 
 const playerStore = usePlayerStore();
 
@@ -21,6 +22,7 @@ const playerStore = usePlayerStore();
         <TheGame />
         <WinnerModal/>
       </div>
+      <SettingsModal/>
     </section>
   </div>
 </template>
