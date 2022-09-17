@@ -5,7 +5,7 @@ import TheNavigation from './components/TheNavigation.vue';
 
 <template>
   <div>
-    <div class="relative mx-auto flex lg:(px-24) dark:(bg-dark-300 text-light-300)">
+    <div class="relative mx-auto flex pl-36 dark:(bg-dark-300 text-light-300)">
       <TheNavigation />
       <main class="flex-grow min-h-screen">
         <RouterView />
