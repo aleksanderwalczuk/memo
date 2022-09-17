@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@formkit/vue": "^1.0.0-beta.10",
+    "@headlessui/vue": "^1.7.2",
+    "@heroicons/vue": "^2.0.11",
     "@vueuse/components": "^9.1.1",
     "@vueuse/core": "^9.1.0",
     "pinia": "^2.0.17",
