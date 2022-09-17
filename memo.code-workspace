@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "name": "🌱 root",
+      "path": "./",
+    },
+    {
+      "name": "🤹 components",
+      "path": "./src/components"
+
+    },
+    {
+      "name": "🏞 views",
+      "path": "./src/views"
+    },
+    {
+      "name": "📦 stores",
+      "path": "./src/stores"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "./",
+    "task.allowAutomaticTasks": "on"
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "dev server",
+        "type": "shell",
+        "command": "npm run dev",
+        "icon": {
+          "color": "terminal.ansiGreen"
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new",
+          "group": "development",
+          "showReuseMessage": true,
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1,
+          "runOn": "folderOpen"
+        },
+        "problemMatcher": [
+          "$eslint-compact"
+        ]
+      }
+    ]
+  },
+}
