@@ -16,6 +16,10 @@
     {
       "name": "📦 stores",
       "path": "./src/stores"
+    },
+    {
+      "name": "🛠 types",
+      "path": "./src/types"
     }
   ],
   "settings": {
