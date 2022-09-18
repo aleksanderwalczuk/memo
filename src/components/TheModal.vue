@@ -1,23 +1,41 @@
 <script setup lang="ts">
 import {
-  toRef, defineEmits,
+  defineEmits, onBeforeUnmount, computed,
 } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
+import { nanoid } from 'nanoid';
+import { useAppStore } from '@/stores/app';
 
-const props = defineProps({ isOpen: { type: Boolean, default: false } });
-const open = toRef(props, 'isOpen');
+const appStore = useAppStore();
+const props = defineProps<{
+  name: string,
+}>();
+
+// let modalInstance: Modal;
+const modalId = nanoid(8);
+const modalInstance = appStore.registerModal({
+  id: modalId,
+  name: props.name,
+  open: false,
+});
 
 const modalEmits = defineEmits(['close', 'open']);
 
 function openModal() {
-  open.value = true;
+  appStore.openModal(modalId);
   modalEmits('open');
 }
 
 function closeModal() {
-  open.value = false;
+  appStore.closeModal(modalId);
   modalEmits('close');
 }
+
+const open = computed(() => modalInstance != null && modalInstance.open);
+
+onBeforeUnmount(() => {
+  appStore.unregisterModal(modalId);
+});
 
 defineExpose([openModal, closeModal]);
 </script>
@@ -27,10 +45,10 @@ defineExpose([openModal, closeModal]);
   <teleport to="#modal">
     <div v-if="open" class="modal">
       <p>Hello from the modal!</p>
-      <button @click="open = false">Close</button>
+      <button @click="modalInstance!.open = false">Close</button>
       <OnClickOutside @trigger="closeModal">
         <div class="modal-inner">
-          <slot :open="open" />
+          <slot :modal="modalInstance"/>
         </div>
       </OnClickOutside>
     </div>

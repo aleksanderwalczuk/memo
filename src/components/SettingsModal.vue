@@ -5,7 +5,8 @@ import { useAppStore } from '@/stores/app';
 const appStore = useAppStore();
 </script>
 <template>
-  <TheModal :is-open="appStore.settingsOpen">
-    <h1>Settins Modal is Open</h1>
+  <TheModal name="settings" v-slot="{modal}">
+    <button @click="appStore.closeModal(modal.id)">Close</button>
+    <h1>Settings Modal is Open</h1>
   </TheModal>
 </template>

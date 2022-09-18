@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
+import { whenever } from '@vueuse/core';
+import { useAppStore } from '@/stores/app';
+
 import { useGameStore } from '../stores/game';
 import { usePlayerStore } from '../stores/player';
 
@@ -7,19 +10,31 @@ import TheModal from './TheModal.vue';
 
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
-const modalClosed = ref(false);
+const appStore = useAppStore();
 
-const isOpen = computed(() => gameStore.hasWon && modalClosed.value === false);
+const modalInstance = appStore.getModalByName('winnerModal');
+
+const isOpen = computed(() => gameStore.hasWon && modalInstance?.open !== true);
+whenever(isOpen, () => {
+  const modal = appStore.getModalByName('winnerModal');
+
+  if (modal) {
+    modal.open = true;
+  }
+});
 
 function handleSubmit(formData: {name: string}) {
   const data = { ...formData, score: playerStore.score };
   console.log(data);
-  modalClosed.value = true;
+
+  if (modalInstance) {
+    modalInstance.open = false;
+  }
 }
 </script>
 
 <template>
-  <TheModal :is-open="isOpen" @close="modalClosed = true">
+  <TheModal name="winnerModal">
     <div v-if="gameStore.hasWon">
       <h2>Congratulations! You've won the game 🎉</h2>
       <div class="flex justify-between">

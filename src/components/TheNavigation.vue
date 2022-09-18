@@ -30,6 +30,10 @@ const route = useRoute();
 
 const appStore = useAppStore();
 
+function testlol(id) {
+  console.log(id);
+}
+
 const navigation: NavigationItem[] = [
   {
     name: 'Start',
