@@ -9,7 +9,9 @@ import SettingsModal from '@/components/SettingsModal.vue';
   <AppBar>
   </AppBar>
   <div>
-    <TheWelcome />
-    <SettingsModal/>
+    <div class="py-8 px-12">
+      <TheWelcome />
+      <SettingsModal/>
+    </div>
   </div>
 </template>
