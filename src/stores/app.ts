@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { Modal } from '@/types/interfaces';
+import type { ModalType } from '@/types/enums';
 
 export const useAppStore = defineStore(
   {
@@ -19,7 +20,7 @@ export const useAppStore = defineStore(
       getModalById(modalId: string) {
         return this.modals.find(({ id }) => id === modalId);
       },
-      getModalByName(modalName: string) {
+      getModalByName(modalName: ModalType) {
         return this.modals.find(({ name }) => name === modalName);
       },
       openModal(modalId: string) {

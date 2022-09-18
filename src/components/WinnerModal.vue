@@ -7,16 +7,17 @@ import { useGameStore } from '../stores/game';
 import { usePlayerStore } from '../stores/player';
 
 import TheModal from './TheModal.vue';
+import { ModalType } from '@/types/enums';
 
 const gameStore = useGameStore();
 const playerStore = usePlayerStore();
 const appStore = useAppStore();
 
-const modalInstance = appStore.getModalByName('winnerModal');
+const modalInstance = appStore.getModalByName(ModalType.winner);
 
 const isOpen = computed(() => gameStore.hasWon && modalInstance?.open !== true);
 whenever(isOpen, () => {
-  const modal = appStore.getModalByName('winnerModal');
+  const modal = appStore.getModalByName(ModalType.winner);
 
   if (modal) {
     modal.open = true;
@@ -34,7 +35,7 @@ function handleSubmit(formData: {name: string}) {
 </script>
 
 <template>
-  <TheModal name="winnerModal">
+  <TheModal :name="ModalType.winner">
     <div v-if="gameStore.hasWon">
       <h2>Congratulations! You've won the game 🎉</h2>
       <div class="flex justify-between">

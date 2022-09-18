@@ -5,10 +5,11 @@ import {
 import { OnClickOutside } from '@vueuse/components';
 import { nanoid } from 'nanoid';
 import { useAppStore } from '@/stores/app';
+import type { ModalType } from '@/types/enums';
 
 const appStore = useAppStore();
 const props = defineProps<{
-  name: string,
+  name: ModalType,
 }>();
 
 // let modalInstance: Modal;

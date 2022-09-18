@@ -1,5 +1,7 @@
+import type { ModalType } from './enums';
+
 export interface Modal {
-  name: string,
+  name: ModalType,
   id: string,
   open: boolean,
 }
