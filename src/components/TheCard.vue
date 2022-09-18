@@ -52,7 +52,7 @@ function toggle() {
     class="card"
     @click="toggle"
     :class="{
-      'border border-light-700 is-guessed' : isGuessed
+      'border border-gray-800 is-guessed' : isGuessed
     }"
   >
     <div class="cover" :class="{
@@ -79,7 +79,7 @@ function toggle() {
   @apply dark:(bg-dark-50)
 }
 .cover {
-  @apply absolute top-0 left-0 w-full h-full transition transition-opacity ease-in-out bg-light-700;
+  @apply absolute top-0 left-0 w-full h-full transition transition-opacity ease-in-out bg-gray-300;
   @apply dark:(bg-dark-500 text-light-300)
 }
 

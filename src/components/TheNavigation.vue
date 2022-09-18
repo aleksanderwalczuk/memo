@@ -137,18 +137,23 @@ const navigation: NavigationItem[] = [
 </template>
 
 <style lang="postcss" scoped>
-li {
-  @apply block my-4;
-}
+  ul {
+    @apply pt-24;
+  }
+  li {
+    @apply block;
+  }
 
-.nav-wrapper {
-  @apply fixed top-0 left-0 bg-white dark:(bg-dark-300 text-light-300) h-full z-10 border-r-2 w-36;
-}
-.nav-item {
-  @apply text-gray-400 dark:text-gray-300 hover:(bg-gray-500 text-gray-100);
-  @apply w-full px-3 py-2 font-medium;
-}
-.nav-item-active {
-  @apply bg-gray-700 text-gray-100 dark:(text-white bg-gray-900);
-}
+  .nav-wrapper {
+    @apply fixed top-0 left-0 bg-gray-100 h-full z-10 border-r-2 w-36;
+    @apply dark:(bg-dark-300 text-light-300);
+  }
+  .nav-item {
+    @apply text-gray-600 dark:text-gray-300 hover:(bg-gray-500 text-gray-100);
+    @apply w-full px-3 py-2 font-medium;
+  }
+  .nav-item-active {
+    @apply bg-gray-700 text-gray-100;
+    @apply dark:(text-white bg-gray-900);
+  }
 </style>
