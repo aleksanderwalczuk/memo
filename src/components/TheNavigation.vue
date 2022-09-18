@@ -5,6 +5,7 @@ import { useDark, useToggle } from '@vueuse/core';
 import { Disclosure, DisclosureButton } from '@headlessui/vue';
 import { useAppStore } from '@/stores/app';
 import DarkModeButton from './DarkModeButton.vue';
+import { ModalType } from '@/types/enums';
 
 type EventCallback = (...args: unknown[]) => void
 
@@ -30,10 +31,6 @@ const route = useRoute();
 
 const appStore = useAppStore();
 
-function testlol(id) {
-  console.log(id);
-}
-
 const navigation: NavigationItem[] = [
   {
     name: 'Start',
@@ -51,6 +48,21 @@ const navigation: NavigationItem[] = [
     classNames: 'nav-item',
   },
   {
+    name: 'Settings',
+    classNames: 'nav-item',
+    elementType: 'button',
+    event: {
+      eventName: 'click',
+      callback: () => {
+        const modal = appStore.getModalByName(ModalType.settings);
+        if (modal) {
+          modal.open = true;
+        }
+      },
+    },
+    // component:
+  },
+  {
     name: darkModeLabel.value,
     classNames: 'nav-item',
     elementType: 'component',
@@ -61,15 +73,6 @@ const navigation: NavigationItem[] = [
       },
     },
     component: DarkModeButton,
-  },
-  {
-    name: 'Settings',
-    classNames: 'nav-item',
-    elementType: 'button',
-    event: {
-      eventName: 'click',
-      callback: appStore.openSettingsModal,
-    },
   },
 ];
 </script>
@@ -110,15 +113,18 @@ const navigation: NavigationItem[] = [
                       </RouterLink>
                     </span>
                   </li>
+                  <li v-else-if="elementType === 'component' && component && event">
+                    <component :is="component" v-on="{
+                      [event.eventName]: event.callback
+                    }"/>
+                  </li>
                   <li v-else-if="elementType === 'component' && component">
                     <component :is="component"/>
                   </li>
                   <li v-else-if="event">
                     <DisclosureButton :class="classNames" class="text-left" v-on="{
                       [event.eventName]: event.callback
-                    }" >
-                      {{ name }}
-                    </DisclosureButton>
+                    }">{{ name }}</DisclosureButton>
                   </li>
                 </template>
               </ul>
@@ -139,10 +145,10 @@ li {
   @apply fixed top-0 left-0 bg-white dark:(bg-dark-300 text-light-300) h-full z-10 border-r-2 w-36;
 }
 .nav-item {
-  @apply text-gray-400 dark:text-gray-300 hover:bg-gray-700 hover:text-white ;
+  @apply text-gray-400 dark:text-gray-300 hover:(bg-gray-500 text-gray-100);
   @apply w-full px-3 py-2 font-medium;
 }
 .nav-item-active {
-  @apply bg-gray-300 text-gray-900 dark:(text-white bg-gray-900);
+  @apply bg-gray-700 text-gray-100 dark:(text-white bg-gray-900);
 }
 </style>
