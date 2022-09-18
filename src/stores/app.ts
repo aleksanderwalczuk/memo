@@ -6,7 +6,6 @@ export const useAppStore = defineStore(
   {
     id: 'app',
     state: () => ({
-      settingsOpen: false,
       modals: [] as Modal[],
     }),
     actions: {
@@ -36,12 +35,6 @@ export const useAppStore = defineStore(
         if (modal) {
           modal.open = false;
         }
-      },
-      openSettingsModal() {
-        this.settingsOpen = true;
-      },
-      closeSettingsModal() {
-        this.settingsOpen = false;
       },
     },
   },
