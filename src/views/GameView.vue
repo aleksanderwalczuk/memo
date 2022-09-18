@@ -21,9 +21,10 @@ const playerStore = usePlayerStore();
         <TheGame />
         <WinnerModal/>
       </div>
-      <SettingsModal/>
+      <!-- <SettingsModal/> -->
     </section>
   </div>
+  <SettingsModal />
 </template>
 
 <style lang="postcss">

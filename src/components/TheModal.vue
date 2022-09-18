@@ -42,7 +42,6 @@ defineExpose([openModal, closeModal]);
 </script>
 
 <template>
-  <button @click="openModal">Open Modal</button>
   <teleport to="#modal">
     <div v-if="open" class="modal">
       <p>Hello from the modal!</p>
